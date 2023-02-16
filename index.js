@@ -1,30 +1,27 @@
 const http = require("http");
+const { randomUUID } = require("crypto");
 
 const port = 4444;
 
+let users = [];
+
 const server = http.createServer((request, response) => {
-  if (request.url === "/firstRoute") {
-    const result = {
-      message: "First response",
-    };
+  const METHOD = request.method;
 
-    response.statusCode = 200;
-    response.setHeader("Content-type", "application/json");
-    return response.end(JSON.stringify(result));
-  } else if (request.url === "/secondRoute") {
-    const result = {
-      message: "Second response",
-    };
+  if (METHOD === "POST") {
+    request.on("data", (data) => {
+      const body = JSON.parse(data);
 
-    response.statusCode = 200;
-    response.setHeader("Content-type", "application/json");
-    return response.end(JSON.stringify(result));
-  } 
+      const userSave = {
+        ...body,
+        id: randomUUID(),
+      };
 
-  response.statusCode = 200;
-  response.setHeader("Content-type", "application/json");
-  response.write("Homepage");
-  response.end();
+      users.push(userSave);
+
+      return response.end(JSON.stringify(userSave));
+    });
+  }
 });
 
 server.listen(port, () => console.log("Server is running!!"));

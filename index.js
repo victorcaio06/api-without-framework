@@ -9,7 +9,7 @@ const server = http.createServer((request, response) => {
   const METHOD = request.method;
   const URL = request.url;
 
-  if (URL === "/users") {
+  if (URL.startsWith("/users")) {
     if (METHOD === "POST") {
       request.on("data", (data) => {
         const body = JSON.parse(data);
@@ -27,6 +27,13 @@ const server = http.createServer((request, response) => {
 
     if (METHOD === "GET") {
       return response.end(JSON.stringify(users));
+    }
+
+    if (METHOD === "PUT") {
+      const paramsSplit = URL.split("/");
+      const user = users.find((user) => user.id === paramsSplit[2]);
+
+      return response.end(JSON.stringify(user));
     }
   }
 });

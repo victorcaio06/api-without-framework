@@ -7,20 +7,27 @@ let users = [];
 
 const server = http.createServer((request, response) => {
   const METHOD = request.method;
+  const URL = request.url;
 
-  if (METHOD === "POST") {
-    request.on("data", (data) => {
-      const body = JSON.parse(data);
+  if (URL === "/users") {
+    if (METHOD === "POST") {
+      request.on("data", (data) => {
+        const body = JSON.parse(data);
 
-      const userSave = {
-        ...body,
-        id: randomUUID(),
-      };
+        const userSave = {
+          ...body,
+          id: randomUUID(),
+        };
 
-      users.push(userSave);
+        users.push(userSave);
 
-      return response.end(JSON.stringify(userSave));
-    });
+        return response.end(JSON.stringify(userSave));
+      });
+    }
+
+    if (METHOD === "GET") {
+      return response.end(JSON.stringify(users));
+    }
   }
 });
 

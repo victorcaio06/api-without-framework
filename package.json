@@ -1,0 +1,20 @@
+{
+  "name": "api-without-framework",
+  "version": "1.0.0",
+  "description": "API developed with Node.js completely without framework. All this to understand how Node works without a framework.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorcaio06/api-without-framework.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victorcaio06/api-without-framework/issues"
+  },
+  "homepage": "https://github.com/victorcaio06/api-without-framework#readme"
+}

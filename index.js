@@ -21,6 +21,7 @@ const server = http.createServer((request, response) => {
 
         users.push(userSave);
 
+        response.statusCode = 201;
         return response.end(JSON.stringify(userSave));
       });
     }
@@ -31,9 +32,29 @@ const server = http.createServer((request, response) => {
 
     if (METHOD === "PUT") {
       const paramsSplit = URL.split("/");
-      const user = users.find((user) => user.id === paramsSplit[2]);
+      const id = paramsSplit[2];
 
-      return response.end(JSON.stringify(user));
+      const userIndex = users.findIndex((user) => user.id === id);
+
+      if (userIndex < 0) {
+        response.statusCode = 400;
+        return response.end();
+      }
+
+      request
+        .on("data", (data) => {
+          const body = JSON.parse(data);
+
+          users[userIndex] = {
+            name: body.name ? body.name : users[userIndex].name,
+            username: body.username ? body.username : users[userIndex].username,
+            email: body.email ? body.email : users[userIndex].email,
+            id,
+          };
+        })
+        .on("end", () => {
+          return response.end();
+        });
     }
   }
 });

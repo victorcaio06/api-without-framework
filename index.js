@@ -38,7 +38,7 @@ const server = http.createServer((request, response) => {
 
       if (userIndex < 0) {
         response.statusCode = 400;
-        return response.end();
+        return response.end({message: 'User not found!'});
       }
 
       request

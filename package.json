@@ -4,7 +4,7 @@
   "description": "API developed with Node.js completely without framework. All this to understand how Node works without a framework.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/victorcaio06/api-without-framework/issues"
   },
-  "homepage": "https://github.com/victorcaio06/api-without-framework#readme"
+  "homepage": "https://github.com/victorcaio06/api-without-framework#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
 }

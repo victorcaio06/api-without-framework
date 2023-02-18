@@ -32,8 +32,8 @@ class User {
     };
   }
 
-  list() {
-    return users;
+  async list() {
+    return await this.userRepository.list();
   }
 }
 

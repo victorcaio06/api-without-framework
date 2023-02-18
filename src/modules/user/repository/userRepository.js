@@ -14,7 +14,7 @@ class UserRepository {
       "INSERT INTO USERS(ID, NAME, USERNAME, EMAIL) VALUES($1, $2, $3, $4)",
       [id, name, username, email]
     );
-    
+
     const user = Object.assign({
       name,
       username,
@@ -23,6 +23,12 @@ class UserRepository {
     });
 
     return user;
+  }
+
+  async list() {
+    const users = await client.query("SELECT * FROM USERS");
+
+    return users.rows;
   }
 }
 

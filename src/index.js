@@ -6,7 +6,7 @@ const user = require("./modules/user/user");
 
 const port = 4444;
 
-const server = http.createServer((request, response) => {
+const server = http.createServer(async (request, response) => {
   const METHOD = request.method;
   const URL = request.url;
 
@@ -23,7 +23,7 @@ const server = http.createServer((request, response) => {
     }
 
     if (METHOD === "GET") {
-      const users = user.list();
+      const users = await user.list();
       return response.end(JSON.stringify(users));
     }
 

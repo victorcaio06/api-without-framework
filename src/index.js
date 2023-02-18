@@ -1,9 +1,10 @@
 const http = require("http");
-const { randomUUID } = require("crypto");
+
+require("./infra/postgres/database");
+
+const user = require("./modules/user/user");
 
 const port = 4444;
-
-let users = [];
 
 const server = http.createServer((request, response) => {
   const METHOD = request.method;
@@ -14,19 +15,15 @@ const server = http.createServer((request, response) => {
       request.on("data", (data) => {
         const body = JSON.parse(data);
 
-        const userSave = {
-          ...body,
-          id: randomUUID(),
-        };
-
-        users.push(userSave);
+        const result = user.create(body);
 
         response.statusCode = 201;
-        return response.end(JSON.stringify(userSave));
+        return response.end(JSON.stringify(result));
       });
     }
 
     if (METHOD === "GET") {
+      const users = user.list();
       return response.end(JSON.stringify(users));
     }
 
@@ -34,25 +31,14 @@ const server = http.createServer((request, response) => {
       const paramsSplit = URL.split("/");
       const id = paramsSplit[2];
 
-      const userIndex = users.findIndex((user) => user.id === id);
-
-      if (userIndex < 0) {
-        response.statusCode = 400;
-        return response.end(JSON.stringify({ message: "User not found!" }));
-      }
-
       request
         .on("data", (data) => {
           const body = JSON.parse(data);
 
-          users[userIndex] = {
-            name: body.name ? body.name : users[userIndex].name,
-            username: body.username ? body.username : users[userIndex].username,
-            email: body.email ? body.email : users[userIndex].email,
-            id,
-          };
+          user.update(id, body);
         })
         .on("end", () => {
+          response.statusCode = 204;
           return response.end();
         });
     }

@@ -35,7 +35,16 @@ const server = http.createServer((request, response) => {
         .on("data", (data) => {
           const body = JSON.parse(data);
 
-          user.update(id, body);
+          try {
+            user.update(id, body);
+          } catch (err) {
+            response.statusCode = 400;
+            return response.end(
+              JSON.stringify({
+                message: err.message,
+              })
+            );
+          }
         })
         .on("end", () => {
           response.statusCode = 204;

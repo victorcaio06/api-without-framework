@@ -1,19 +1,14 @@
-const { randomUUID } = require("crypto");
+const UserRepository = require("./repository/userRepository");
 
 let users = [];
 
 class User {
-  constructor() {}
+  constructor() {
+    this.userRepository = new UserRepository();
+  }
 
-  create(body) {
-    const userSave = {
-      ...body,
-      id: randomUUID(),
-    };
-
-    users.push(userSave);
-
-    return userSave;
+  async create(body) {
+    return await this.userRepository.create(body);
   }
 
   findById(id) {
@@ -27,7 +22,6 @@ class User {
   }
 
   update(id, body) {
-
     const userIndex = this.findById(id);
 
     users[userIndex] = {
@@ -41,8 +35,6 @@ class User {
   list() {
     return users;
   }
-
-
 }
 
 module.exports = new User();

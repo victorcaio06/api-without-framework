@@ -12,10 +12,10 @@ const server = http.createServer((request, response) => {
 
   if (URL.startsWith("/users")) {
     if (METHOD === "POST") {
-      request.on("data", (data) => {
+      request.on("data", async (data) => {
         const body = JSON.parse(data);
 
-        const result = user.create(body);
+        const result = await user.create(body);
 
         response.statusCode = 201;
         return response.end(JSON.stringify(result));

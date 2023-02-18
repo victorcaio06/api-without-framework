@@ -8,8 +8,13 @@ const client = new Client({
   database: "modulo_api",
 });
 
-client.connect();
+client
+  .connect()
+  .then(() => {
+    console.log("Database is on!");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-module.exports = {
-  client
-}
+module.exports = client;

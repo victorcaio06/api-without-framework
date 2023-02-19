@@ -26,9 +26,25 @@ class UserRepository {
   }
 
   async list() {
-    const users = await client.query("SELECT * FROM USERS");
+    const { rows } = await client.query("SELECT * FROM USERS");
 
-    return users.rows;
+    return rows;
+  }
+
+  async findById(id) {
+    const query = "SELECT * FROM USERS WHERE ID = $1 LIMIT 1";
+
+    const { rows } = await this.client.query(query, [id]);
+    
+    if (rows.length > 0) return rows[0];
+
+    return null;
+  }
+
+  async update(id, { name, username, email } = body) {
+    const query =
+      "UPDATE USERS SET NAME = $1, USERNAME = $2, EMAIL = $3 WHERE ID = $4 ";
+    await this.client.query(query, [name, username, email, id]);
   }
 }
 

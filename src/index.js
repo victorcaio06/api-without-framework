@@ -31,25 +31,23 @@ const server = http.createServer(async (request, response) => {
       const paramsSplit = URL.split("/");
       const id = paramsSplit[2];
 
-      request
-        .on("data", (data) => {
-          const body = JSON.parse(data);
+      request.on("data", async (data) => {
+        const body = JSON.parse(data);
 
-          try {
-            user.update(id, body);
-          } catch (err) {
-            response.statusCode = 400;
-            return response.end(
-              JSON.stringify({
-                message: err.message,
-              })
-            );
-          }
-        })
-        .on("end", () => {
+        try {
+          await user.update(id, body);
+
           response.statusCode = 204;
           return response.end();
-        });
+        } catch (err) {
+          response.statusCode = 404;
+          return response.end(
+            JSON.stringify({
+              message: err.message,
+            })
+          );
+        }
+      });
     }
   }
 });

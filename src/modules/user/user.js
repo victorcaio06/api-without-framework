@@ -11,25 +11,20 @@ class User {
     return await this.userRepository.create(body);
   }
 
-  findById(id) {
-    const user = users.findIndex((user) => user.id === id);
+  // findById(id) {
+  //   const user  = this.userRepository.findById(id);
 
-    if (user < 0) {
+  //   return user;
+  // }
+
+  async update(id, body) {
+    const userExists = await this.userRepository.findById(id);
+
+    if (!userExists) {
       throw new Error("User not found!");
     }
 
-    return user;
-  }
-
-  update(id, body) {
-    const userIndex = this.findById(id);
-
-    users[userIndex] = {
-      name: body.name ? body.name : users[userIndex].name,
-      username: body.username ? body.username : users[userIndex].username,
-      email: body.email ? body.email : users[userIndex].email,
-      id,
-    };
+    await this.userRepository.update(userExists.id, body);
   }
 
   async list() {

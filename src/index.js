@@ -1,11 +1,13 @@
 const http = require("http");
 const CreateUserController = require("./modules/user/useCases/createUser/createUserController");
+const ListUserController = require("./modules/user/useCases/listUser/listUsercontroller");
 
 const user = require("./modules/user/user");
 
 require("./infra/postgres/database");
 
 const createUserController = new CreateUserController();
+const listUserController = new ListUserController();
 
 const port = 4444;
 
@@ -19,7 +21,8 @@ const server = http.createServer(async (request, response) => {
     }
 
     if (METHOD === "GET") {
-      const users = await user.list();
+      const users = await listUserController.handle();
+      
       return response.end(JSON.stringify(users));
     }
 

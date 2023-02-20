@@ -51,7 +51,7 @@ class UserRepository {
     return null;
   }
 
-  async update(id, { name, username, email } = body) {
+  async update(id, { name, username, email }) {
     const query =
       "UPDATE USERS SET NAME = $1, USERNAME = $2, EMAIL = $3 WHERE ID = $4 ";
     await this.client.query(query, [name, username, email, id]);

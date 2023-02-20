@@ -1,8 +1,11 @@
 const http = require("http");
+const CreateUserController = require("./modules/user/useCases/createUser/createUserController");
+
+const user = require("./modules/user/user");
 
 require("./infra/postgres/database");
 
-const user = require("./modules/user/user");
+const createUserController = new CreateUserController();
 
 const port = 4444;
 
@@ -12,14 +15,7 @@ const server = http.createServer(async (request, response) => {
 
   if (URL.startsWith("/users")) {
     if (METHOD === "POST") {
-      request.on("data", async (data) => {
-        const body = JSON.parse(data);
-
-        const result = await user.create(body);
-
-        response.statusCode = 201;
-        return response.end(JSON.stringify(result));
-      });
+      await createUserController.handle(request, response);
     }
 
     if (METHOD === "GET") {

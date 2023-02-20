@@ -1,7 +1,5 @@
 const UserRepository = require("./repository/userRepository");
 
-let users = [];
-
 class User {
   constructor() {
     this.userRepository = new UserRepository();

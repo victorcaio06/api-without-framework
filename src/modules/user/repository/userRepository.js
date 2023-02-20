@@ -7,7 +7,7 @@ class UserRepository {
     this.client = client;
   }
 
-  async create({ name, username, email } = body) {
+  async create({ name, username, email }) {
     const id = randomUUID();
 
     await this.client.query(
@@ -35,7 +35,17 @@ class UserRepository {
     const query = "SELECT * FROM USERS WHERE ID = $1 LIMIT 1";
 
     const { rows } = await this.client.query(query, [id]);
-    
+
+    if (rows.length > 0) return rows[0];
+
+    return null;
+  }
+
+  async findByUsername(username) {
+    const query = "SELECT * FROM USERS WHERE USERNAME = $1 LIMIT 1";
+
+    const { rows } = await this.client.query(query, [username]);
+
     if (rows.length > 0) return rows[0];
 
     return null;

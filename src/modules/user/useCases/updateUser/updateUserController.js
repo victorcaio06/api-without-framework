@@ -1,7 +1,8 @@
 const UpdateUserUseCase = require("./updateUserUseCase");
 
+const updateUserUseCase = new UpdateUserUseCase();
+
 class UpdateUserController {
-  updateUserUseCase = new UpdateUserUseCase();
 
   async handle(request, response) {
     const URL = request.url;
@@ -12,7 +13,7 @@ class UpdateUserController {
       const body = JSON.parse(data);
 
       try {
-        await this.updateUserUseCase.execute(id, body);
+        await updateUserUseCase.execute(id, body);
 
         response.statusCode = 204;
         return response.end();

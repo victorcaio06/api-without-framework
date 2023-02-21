@@ -1,14 +1,14 @@
 const CreateUserUseCase = require("./createUserUseCase");
 
-class CreateUserController {
-  createUserUseCase = new CreateUserUseCase();
+const createUserUseCase = new CreateUserUseCase();
 
+class CreateUserController {
   async handle(request, response) {
     request.on("data", async (data) => {
       let user;
       const body = JSON.parse(data);
       try {
-        user = await this.createUserUseCase.execute(body);
+        user = await createUserUseCase.execute(body);
       } catch (err) {
         response.statusCode = 400;
         response.end(

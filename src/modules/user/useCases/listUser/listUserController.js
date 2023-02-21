@@ -1,10 +1,10 @@
 const ListUserUseCase = require("./listUserUseCase");
 
-class ListUserController {
-  listUserUseCase = new ListUserUseCase();
+const listUserUseCase = new ListUserUseCase();
 
+class ListUserController {
   async handle(request, response) {
-    const users = await this.listUserUseCase.execute();
+    const users = await listUserUseCase.execute();
 
     return response.end(JSON.stringify(users));
   }

@@ -41,9 +41,17 @@ const handler = (request, response) => {
     }
   });
 
-  request.params = objectParams;
+  request
+    .on("data", (data) => {
+      const body = JSON.parse(data);
+      
+      request.body = body;
+    })
+    .on("end", () => {
+      request.params = objectParams;
 
-  return executeRouter.controller(request, response);
+      return executeRouter.controller(request, response);
+    });
 };
 
 module.exports = handler;

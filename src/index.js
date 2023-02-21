@@ -1,6 +1,6 @@
 const http = require("http");
 
-const handler = require("./routes/index.routes");
+const handler = require("./routes/handler.routes");
 
 require("./infra/postgres/database");
 

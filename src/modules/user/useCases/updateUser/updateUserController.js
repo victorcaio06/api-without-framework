@@ -3,11 +3,8 @@ const UpdateUserUseCase = require("./updateUserUseCase");
 const updateUserUseCase = new UpdateUserUseCase();
 
 class UpdateUserController {
-
   async handle(request, response) {
-    const URL = request.url;
-    const paramsSplit = URL.split("/");
-    const id = paramsSplit[2];
+    const { id } = request.params;
 
     request.on("data", async (data) => {
       const body = JSON.parse(data);

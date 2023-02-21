@@ -19,6 +19,30 @@ const handler = (request, response) => {
     return urlSplit.length === routerUrlSplit.length;
   });
 
+  if (!executeRouter) {
+    response.statusCode = 404;
+
+    return response.end(
+      JSON.stringify({
+        message: "Not found!",
+      })
+    );
+  }
+
+  const routerSplitUtl = executeRouter.url.split("/").filter(Boolean);
+
+  const objectParams = {};
+
+  routerSplitUtl.forEach((item, index) => {
+    if (item.startsWith(":")) {
+      const formatField = item.replace(":", "");
+
+      objectParams[formatField] = urlSplit[index];
+    }
+  });
+
+  request.params = objectParams;
+
   return executeRouter.controller(request, response);
 };
 

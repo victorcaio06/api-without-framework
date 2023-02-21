@@ -18,7 +18,7 @@ const router = [
     controller: listUserController.handle,
   },
   {
-    url: "/users",
+    url: "/users/:id",
     method: "put",
     controller: updateUserController.handle,
   },

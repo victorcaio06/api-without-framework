@@ -1,3 +1,4 @@
+const encryptPassword = require("../../../../utils/encryptPassword");
 const UserRepository = require("../../repositories/userRepository");
 
 class UpdateUserUseCase {
@@ -12,11 +13,14 @@ class UpdateUserUseCase {
 
     if (usernameExists) throw new Error("Username exists!");
 
+    const encryptPwd = encryptPassword(password);
+
     await this.userRepository.update(id, {
       name: name ? name : userExists.name,
       username: username ? username : userExists.username,
       email: email ? email : userExists.email,
-      password: password ? password : userExists.password,
+      password: password ? encryptPwd.encryptedPassword : userExists.password,
+      iv: encryptPwd.iv,
     });
   }
 }

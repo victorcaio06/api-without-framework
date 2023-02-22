@@ -2,6 +2,7 @@ const http = require("http");
 
 const handler = require("./routes/handler.routes");
 
+require("dotenv").config();
 require("./infra/postgres/database");
 
 const port = 4444;

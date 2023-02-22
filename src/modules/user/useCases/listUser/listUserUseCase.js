@@ -1,4 +1,4 @@
-const UserRepository = require("../../repository/userRepository");
+const UserRepository = require("../../repositories/userRepository");
 
 class ListUserUseCase {
   userRepository = new UserRepository();

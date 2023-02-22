@@ -7,18 +7,21 @@ class UserRepository {
     this.client = client;
   }
 
-  async create({ name, username, email }) {
+  async create({ name, username, email, encryptedPwd }) {
+    const { iv, encryptedPassword } = encryptedPwd;
+
     const id = randomUUID();
 
     await this.client.query(
-      "INSERT INTO USERS(ID, NAME, USERNAME, EMAIL) VALUES($1, $2, $3, $4)",
-      [id, name, username, email]
+      "INSERT INTO USERS(ID, NAME, USERNAME, EMAIL, PASSWORD, IV) VALUES($1, $2, $3, $4, $5, $6)",
+      [id, name, username, email, encryptedPassword, iv]
     );
 
     const user = Object.assign({
       name,
       username,
       email,
+      password: encryptedPassword,
       id,
     });
 
@@ -51,10 +54,10 @@ class UserRepository {
     return null;
   }
 
-  async update(id, { name, username, email }) {
+  async update(id, { name, username, email, password, iv }) {
     const query =
-      "UPDATE USERS SET NAME = $1, USERNAME = $2, EMAIL = $3 WHERE ID = $4 ";
-    await this.client.query(query, [name, username, email, id]);
+      "UPDATE USERS SET NAME = $1, USERNAME = $2, EMAIL = $3, PASSWORD = $4, IV = $5 WHERE ID = $6 ";
+    await this.client.query(query, [name, username, email, password, iv, id]);
   }
 }
 

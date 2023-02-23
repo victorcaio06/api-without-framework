@@ -11,4 +11,4 @@ const server = http.createServer(handler);
 
 server.listen(port, () => console.log("Server is running!!"));
 
-process.on("uncaughtException", (error) => console.log("Error: ", error));
+// process.on("uncaughtException", (error) => console.log("Error: ", error));

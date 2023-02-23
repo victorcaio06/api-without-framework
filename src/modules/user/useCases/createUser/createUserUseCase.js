@@ -1,4 +1,3 @@
-const decryptPassword = require("../../../../utils/decryptPassword");
 const encryptPassword = require("../../../../utils/encryptPassword");
 const UserRepository = require("../../repositories/userRepository");
 
@@ -13,10 +12,6 @@ class CreateUserUseCase {
     const encryptedPwd = encryptPassword(password);
 
     const user = await this.userRepository.create({ name, username, email, encryptedPwd });
-
-    const decryptedPassword = decryptPassword(encryptedPwd.encryptedPassword, encryptedPwd.iv);
-
-    user.password = decryptedPassword;
 
     return user;
   }

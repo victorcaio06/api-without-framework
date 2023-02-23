@@ -21,8 +21,6 @@ class UserRepository {
       name,
       username,
       email,
-      password: encryptedPassword,
-      id,
     });
 
     return user;
@@ -58,6 +56,10 @@ class UserRepository {
     const query =
       "UPDATE USERS SET NAME = $1, USERNAME = $2, EMAIL = $3, PASSWORD = $4, IV = $5 WHERE ID = $6 ";
     await this.client.query(query, [name, username, email, password, iv, id]);
+  }
+
+  async delete(id) {
+    return await this.client.query("DELETE FROM USERS WHERE ID = $1", [id]);
   }
 }
 

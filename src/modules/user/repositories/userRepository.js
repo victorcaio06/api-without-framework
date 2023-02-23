@@ -52,6 +52,16 @@ class UserRepository {
     return null;
   }
 
+  async findByEmail(email) {
+    const query = "SELECT * FROM USERS WHERE EMAIL = $1 LIMIT 1";
+
+    const { rows } = await this.client.query(query, [email]);
+
+    if (rows.length > 0) return rows[0];
+
+    return null;
+  }
+
   async update(id, { name, username, email, password, iv }) {
     const query =
       "UPDATE USERS SET NAME = $1, USERNAME = $2, EMAIL = $3, PASSWORD = $4, IV = $5 WHERE ID = $6 ";

@@ -5,13 +5,22 @@ class CreateUserUseCase {
   userRepository = new UserRepository();
 
   async execute({ name, username, email, password } = body) {
-    const userExists = await this.userRepository.findByUsername(username);
+    const usernameExists = await this.userRepository.findByUsername(username);
 
-    if (userExists) throw new Error("Username already exists!");
+    if (usernameExists) throw new Error("Username already exists!");
+
+    const emailExists = await this.userRepository.findByEmail(email);
+
+    if (emailExists) throw new Error("Email already exists!");
 
     const encryptedPwd = encryptPassword(password);
 
-    const user = await this.userRepository.create({ name, username, email, encryptedPwd });
+    const user = await this.userRepository.create({
+      name,
+      username,
+      email,
+      encryptedPwd,
+    });
 
     return user;
   }
